@@ -110,7 +110,7 @@ function HeroSection() {
   {/* MIDDLE: MAIN MESSAGE */}
   {/* Removed the bulky glass box padding to keep the layout clean and spacious */}
   <Link 
-    href="/shop"
+    href="/shop?showDelivery=true"
     className="relative z-10 flex flex-col items-center text-center group cursor-pointer w-full px-2"
   >
     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-black/5 blur-[40px] rounded-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700" />

@@ -14,21 +14,18 @@ const categories = [
   { id: 'gifts', label: 'Gifting Hampers', href: '/gifts' },
   { id: 'baklava', label: 'Baklava' },
   { id: 'pastries', label: 'Pastries' },
-  { id: 'desserts', label: 'Desserts' },
+  { id: 'fresh-bread', label: 'Oven Fresh Breads' },
   { id: 'savory-snacks', label: 'Savory Snacks' },
 ]
 
 export function ShopFilters({
   selectedCategory,
   onCategoryChange,
-  selectedDiet,
-  onDietChange,
   isMobileOpen,
   onMobileClose,
   deliveryScope,
 }) {
   const router = useRouter()
-  const [dietOpen, setDietOpen] = useState(false)
 
   const visibleCategories = deliveryScope === 'panIndia' 
     ? categories.filter(c => c.id !== 'tea-time-cake') 
@@ -49,14 +46,6 @@ export function ShopFilters({
                   // If 'all' is clicked, show all products
                   const newCat = cat.id === 'all' ? null : cat.id;
                   onCategoryChange(newCat);
-                  
-                  // Open diet menu only if Cakes is selected
-                  if (cat.id === 'tea-time-cake') {
-                    setDietOpen(true);
-                  } else {
-                    setDietOpen(false);
-                    onDietChange?.(null); // Clear diet if moving to other categories
-                  }
                 }
               }}
               className={`w-full text-left px-4 py-2.5 rounded-xl transition-colors ${
@@ -67,60 +56,6 @@ export function ShopFilters({
             >
               {cat.label}
             </button>
-
-            {/* Veg/Non-Veg Section appears BELOW the Cake button */}
-            <AnimatePresence>
-              {cat.id === 'tea-time-cake' && selectedCategory === 'tea-time-cake' && dietOpen && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  exit={{ opacity: 0, height: 0 }}
-                  className="overflow-hidden"
-                >
-                  <div className="mt-2 ml-4 space-y-1 border-l-2 border-primary/10 pl-4 py-2">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        onDietChange?.('veg');
-                        // setDietOpen(false); // Keep open for better UX
-                      }}
-                      className={`w-full text-left px-3 py-2 rounded-lg transition-colors flex items-center gap-2 text-sm ${
-                        selectedDiet === 'veg'
-                          ? 'bg-primary text-primary-foreground'
-                          : 'text-foreground hover:bg-beige'
-                      }`}
-                    >
-                      <span className="inline-block w-2 h-2 rounded-full" style={{ backgroundColor: '#128a17' }} />
-                      Eggless
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        onDietChange?.('nonveg');
-                        // setDietOpen(false); // Keep open for better UX
-                      }}
-                      className={`w-full text-left px-3 py-2 rounded-lg transition-colors flex items-center gap-2 text-sm ${
-                        selectedDiet === 'nonveg'
-                          ? 'bg-primary text-primary-foreground'
-                          : 'text-foreground hover:bg-beige'
-                      }`}
-                    >
-                      <span className="inline-block w-2 h-2 rounded-full" style={{ backgroundColor: '#c91e1e' }} />
-                      Eggs
-                    </button>
-                    
-                    {selectedDiet && (
-                      <button
-                        onClick={() => onDietChange?.(null)}
-                        className="text-[10px] uppercase tracking-widest text-muted-foreground hover:text-primary mt-2 ml-3"
-                      >
-                        Clear Diet Filter
-                      </button>
-                    )}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
           </div>
         ))}
       </div>

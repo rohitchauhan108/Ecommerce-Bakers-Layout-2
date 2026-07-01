@@ -22,10 +22,14 @@ const navLinks = [
 ]
 
 const productCategories = [
-  { name: 'Biscuit & Confections', slug: 'biscuit-and-confections' },
-  { name: 'Rusk', slug: 'rusk' },
-  { name: 'Tea Time Cake', slug: 'tea-time-cake' },
-  { name: 'Fresh Bread', slug: 'fresh-bread' },
+  { name: 'Biscuits & Cookies', slug: 'biscuit-and-confections' },
+  { name: 'Rusks & Toasts', slug: 'rusk' },
+  { name: 'Cakes', slug: 'tea-time-cake' },
+  { name: 'Confections & Stick Jaws', slug: 'confections-and-stick-jaws' },
+  { name: 'Baklava', slug: 'baklava' },
+  { name: 'Pastries', slug: 'pastries' },
+  { name: 'Oven Fresh Breads', slug: 'fresh-bread' },
+  { name: 'Savory Snacks', slug: 'savory-snacks' },
 ]
 
 export function Header() {
@@ -215,12 +219,7 @@ export function Header() {
                               {category.name}
                             </Link>
                           ))}
-                          <Link
-                            href="/shop"
-                            className="block px-4 py-3 text-sm text-primary font-bold hover:bg-beige/50 transition-colors bg-beige/10"
-                          >
-                            VIEW ALL PRODUCTS →
-                          </Link>
+                    
                         </div>
                       </div>
                     </motion.div>

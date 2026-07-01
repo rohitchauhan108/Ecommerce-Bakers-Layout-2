@@ -26,7 +26,7 @@ const categories = [
   },
   {
     id: 'fresh-bread',
-    name: 'Fresh Bread',
+    name: 'Oven Fresh Breads',
     image: 'https://res.cloudinary.com/drx8l7t5c/image/upload/v1771908493/_STU0213_yashin.webp',
     description: 'Breads baked fresh',
   },

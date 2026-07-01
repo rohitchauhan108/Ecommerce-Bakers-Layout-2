@@ -27,19 +27,23 @@ export function ProductCard({ product, index }) {
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             className="object-cover transition-transform duration-500 group-hover:scale-110"
           />
+          {/* Veg/Non-Veg Sign */}
+          <div className="absolute bottom-3 right-3 z-10">
+            <Image
+              src="/vegetarian.png"
+              alt="Vegetarian"
+              width={24}
+              height={24}
+              className="object-contain"
+            />
+          </div>
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
-          <ProductActions
-            product={product}
-            variant="icon"
-            className="absolute bottom-4 right-4 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 bg-primary text-primary-foreground p-3 rounded-full shadow-lg hover:scale-105"
-            ariaLabel="Add to cart"
-          />
         </div>
         <div className="p-5 flex flex-col flex-1">
-          <span className="text-xs uppercase tracking-wide text-muted-foreground">
+          {/* <span className="text-xs uppercase tracking-wide text-muted-foreground">
             {product.category}
-          </span>
-          <h3 className="mt-1 font-serif text-lg text-primary leading-snug">
+          </span> */}
+          <h3 className="mt-0 font-serif text-lg text-primary leading-snug">
             {product.name}
           </h3>
           <div className="mt-2 mb-5">

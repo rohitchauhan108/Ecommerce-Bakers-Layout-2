@@ -180,11 +180,18 @@ export default function ProductDetailPage({ params }) {
 
           {/* RIGHT – DETAILS */}
           <div>
-            <span className="text-gold uppercase tracking-widest text-sm font-semibold">
+            {/* <span className="text-gold uppercase tracking-widest text-sm font-semibold">
               {product.category}
-            </span>
+            </span> */}
 
-            <h1 className="font-serif text-4xl lg:text-5xl text-primary mt-3 leading-tight">
+            <h1 className="font-serif text-4xl lg:text-5xl text-primary mt-0 leading-tight flex items-center gap-3">
+              <Image
+                src="/vegetarian.png"
+                alt="Vegetarian"
+                width={32}
+                height={32}
+                className="object-contain"
+              />
               {product.name}
             </h1>
 
