@@ -9,7 +9,7 @@ const categories = [
   { id: 'all', label: 'All Categories' },
   { id: 'biscuit-and-confections', label: 'Biscuits & Cookies' },
   { id: 'rusk', label: 'Rusks & Toasts' },
-  { id: 'tea-time-cake', label: 'Cakes' },
+  { id: 'tea-time-cake', label: 'Tea Time Cakes' },
   { id: 'confections-and-stick-jaws', label: 'Confections & Stick Jaws' },
   { id: 'gifts', label: 'Gifting Hampers', href: '/gifts' },
   { id: 'baklava', label: 'Baklava' },
