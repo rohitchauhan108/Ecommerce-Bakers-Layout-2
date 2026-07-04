@@ -1,81 +1,76 @@
-'use client'
+"use client";
 
-import { useMemo, useState, useEffect, useRef, use } from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { Plus, Minus, ChevronLeft, ChevronRight } from 'lucide-react'
-import { orderedProducts } from '@/lib/products'
-import { useCart } from '@/components/cart-context'
+import { useMemo, useState, useEffect, useRef, use } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Plus, Minus, ChevronLeft, ChevronRight } from "lucide-react";
+import { orderedProducts } from "@/lib/products";
+import { useCart } from "@/components/cart-context";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselPrevious,
   CarouselNext,
-} from '@/components/ui/carousel'
-import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
+} from "@/components/ui/carousel";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 
 export default function ProductDetailPage({ params }) {
-  const unwrappedParams = use(params)
-  const param = unwrappedParams.id
+  const unwrappedParams = use(params);
+  const param = unwrappedParams.id;
   const slugify = (s) =>
     s
       .toLowerCase()
-      .replace(/[^a-z0-9\s-]/g, '')
+      .replace(/[^a-z0-9\s-]/g, "")
       .trim()
-      .replace(/\s+/g, '-')
+      .replace(/\s+/g, "-");
   const product = useMemo(() => {
-    const maybeId = parseInt(param, 10)
+    const maybeId = parseInt(param, 10);
     if (!isNaN(maybeId)) {
-      const foundById = orderedProducts.find((p) => p.id === maybeId)
-      if (foundById) return foundById
+      const foundById = orderedProducts.find((p) => p.id === maybeId);
+      if (foundById) return foundById;
     }
-    const paramSlug = slugify(param)
-    return orderedProducts.find((p) => slugify(p.name) === paramSlug)
-  }, [param])
-  const router = useRouter()
+    const paramSlug = slugify(param);
+    return orderedProducts.find((p) => slugify(p.name) === paramSlug);
+  }, [param]);
+  const router = useRouter();
 
   useEffect(() => {
-    if (!product) router.push('/shop')
-  }, [product, router])
+    if (!product) router.push("/shop");
+  }, [product, router]);
 
-  if (!product) return null
+  if (!product) return null;
 
   const images = useMemo(() => {
     if (product.images && product.images.length > 0) {
-      return product.images.slice(0, 3)
+      return product.images.slice(0, 3);
     }
-    return [
-      product.image,
-      product.image,
-      product.image,
-    ]
-  }, [product])
+    return [product.image, product.image, product.image];
+  }, [product]);
 
-  const { addItem } = useCart()
-  const [qty, setQty] = useState(1)
-  const [activeIndex, setActiveIndex] = useState(0)
-  const [lightboxOpen, setLightboxOpen] = useState(false)
+  const { addItem } = useCart();
+  const [qty, setQty] = useState(1);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
 
-  const carouselApiRef = useRef(null)
+  const carouselApiRef = useRef(null);
   const setApi = (api) => {
-    carouselApiRef.current = api
-    if (!api) return
-    api.on('select', () => {
-      setActiveIndex(api.selectedScrollSnap())
-    })
-  }
+    carouselApiRef.current = api;
+    if (!api) return;
+    api.on("select", () => {
+      setActiveIndex(api.selectedScrollSnap());
+    });
+  };
 
   const handleThumbClick = (index) => {
-    setActiveIndex(index)
-    carouselApiRef.current?.scrollTo(index)
-  }
+    setActiveIndex(index);
+    carouselApiRef.current?.scrollTo(index);
+  };
 
   return (
     <div className="min-h-screen bg-cream">
       <div className="max-w-7xl mx-auto px-4 py-10">
-
         {/* BACK BUTTON FOR SMALL DEVICES */}
         <div className="block lg:hidden mb-4">
           <button
@@ -88,20 +83,19 @@ export default function ProductDetailPage({ params }) {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-14 items-start">
-
           {/* LEFT – IMAGE + BACK BUTTON FOR LARGE DEVICES */}
           <div className="relative flex flex-col items-center pt-6 lg:pt-8">
             {/* BACK BUTTON FOR LARGE SCREENS */}
             <button
               onClick={() => router.back()}
-              className="hidden lg:flex absolute -top-2 -left-8 z-30 mb-4 items-center gap-2 text-primary hover:text-gold transition bg-white/80 backdrop-blur rounded-full px-4 py-2 shadow-md hover:shadow-lg"
+              className="hidden lg:flex absolute -top-5 -left-8 z-30 mb-4 items-center gap-2 text-primary hover:text-gold transition bg-white/80 backdrop-blur rounded-full px-4 py-2 shadow-md hover:shadow-lg cursor-pointer"
             >
               <ChevronLeft className="w-5 h-5" />
               <span className="text-sm font-medium">Back</span>
             </button>
 
             <div className="relative w-full max-w-2xl z-10">
-              <Carousel setApi={setApi} opts={{ align: 'center' }}>
+              <Carousel setApi={setApi} opts={{ align: "center" }}>
                 <CarouselContent>
                   {images.map((src, i) => (
                     <CarouselItem key={i}>
@@ -110,7 +104,7 @@ export default function ProductDetailPage({ params }) {
                         onClick={() => setLightboxOpen(true)}
                       >
                         <Image
-                          src={src || '/placeholder.svg'}
+                          src={src || "/placeholder.svg"}
                           alt={`${product.name} ${i + 1}`}
                           fill
                           className="object-cover transition-transform duration-300 ease-out"
@@ -133,7 +127,7 @@ export default function ProductDetailPage({ params }) {
                 <DialogTitle className="sr-only">{product.name}</DialogTitle>
                 <div className="relative w-full aspect-4/3 sm:aspect-3/2">
                   <Image
-                    src={images[activeIndex] || '/placeholder.svg'}
+                    src={images[activeIndex] || "/placeholder.svg"}
                     alt={product.name}
                     fill
                     className="object-cover rounded-xl"
@@ -146,7 +140,7 @@ export default function ProductDetailPage({ params }) {
             <div className="relative z-20 mt-4">
               <div className="flex justify-center gap-3 flex-wrap">
                 {images.map((src, i) => {
-                  const isActive = i === activeIndex
+                  const isActive = i === activeIndex;
                   return (
                     <div
                       key={i}
@@ -155,9 +149,11 @@ export default function ProductDetailPage({ params }) {
                         p-0.75 rounded-lg
                         bg-white/30 backdrop-blur-md
                         transition-all duration-300
-                        ${isActive
-                          ? 'border-2 border-gold scale-[1.05] shadow-md'
-                          : 'border border-gray-300 hover:scale-105'}
+                        ${
+                          isActive
+                            ? "border-2 border-gold scale-[1.05] shadow-md"
+                            : "border border-gray-300 hover:scale-105"
+                        }
                       `}
                     >
                       <button
@@ -165,14 +161,14 @@ export default function ProductDetailPage({ params }) {
                         className="w-full h-full relative rounded-lg overflow-hidden"
                       >
                         <Image
-                          src={src || '/placeholder.svg'}
+                          src={src || "/placeholder.svg"}
                           alt={`Thumb ${i + 1}`}
                           fill
                           className="object-cover"
                         />
                       </button>
                     </div>
-                  )
+                  );
                 })}
               </div>
             </div>
@@ -185,13 +181,25 @@ export default function ProductDetailPage({ params }) {
             </span> */}
 
             <h1 className="font-serif text-4xl lg:text-5xl text-primary mt-0 leading-tight flex items-center gap-3">
-              <Image
-                src="/vegetarian.png"
-                alt="Vegetarian"
-                width={32}
-                height={32}
-                className="object-contain"
-              />
+              <div className="absolute bottom-[65px] left-[680px] z-10">
+                {product.foodtype === "non-veg" ? (
+                <Image
+                  src="/non-vegetarian.png"
+                  alt="Vegetarian"
+                  width={40}
+                  height={40}
+                  className="object-contain"
+                />
+              ) : (
+                <Image
+                  src="/vegetarian.png"
+                  alt="Vegetarian"
+                  width={40}
+                  height={40}
+                  className="object-contain"
+                />
+              )}
+              </div>
               {product.name}
             </h1>
 
@@ -205,11 +213,8 @@ export default function ProductDetailPage({ params }) {
 
             <ul className="mt-6 space-y-2 text-muted-foreground">
               {[
-                'Freshly baked every morning',
-                'Premium quality ingredients sourced locally',
-                '100% Eggless options available',
-                'Free delivery on orders above ₹500',
-                'Customizable sweetness levels',
+                "Freshly baked every morning",
+                "Premium quality ingredients sourced locally",
               ].map((item, i) => (
                 <li key={i} className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-gold" />
@@ -239,18 +244,16 @@ export default function ProductDetailPage({ params }) {
               {/* ADD TO CART INLINE */}
               <button
                 onClick={() => {
-                  for (let i = 0; i < qty; i++) addItem(product)
+                  for (let i = 0; i < qty; i++) addItem(product);
                 }}
-                className="bg-primary text-primary-foreground px-6 py-3 rounded-xl hover:bg-primary/90 transition ml-4"
+                className="bg-primary text-primary-foreground px-6 py-3 rounded-xl hover:bg-primary/90 transition ml-4 cursor-pointer"
               >
                 Add to Cart
               </button>
             </div>
-
           </div>
-
         </div>
       </div>
     </div>
-  )
+  );
 }

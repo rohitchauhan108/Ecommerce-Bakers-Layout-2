@@ -1,18 +1,21 @@
-import Image from 'next/image'
-import Link from 'next/link'
-import ProductActions from '@/components/product-actions'
+import Image from "next/image";
+import Link from "next/link";
+import ProductActions from "@/components/product-actions";
 
 const slugify = (s) =>
   s
     .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/[^a-z0-9\s-]/g, "")
     .trim()
-    .replace(/\s+/g, '-')
+    .replace(/\s+/g, "-");
 
 const transformCloudinary = (url, width = 800) => {
-  if (!url?.includes('res.cloudinary.com')) return url
-  return url.replace('/image/upload/', `/image/upload/f_auto,q_auto,w_${width}/`)
-}
+  if (!url?.includes("res.cloudinary.com")) return url;
+  return url.replace(
+    "/image/upload/",
+    `/image/upload/f_auto,q_auto,w_${width}/`,
+  );
+};
 
 export function ProductCard({ product, index }) {
   return (
@@ -20,7 +23,7 @@ export function ProductCard({ product, index }) {
       <div className="bg-card rounded-2xl overflow-hidden border border-border shadow-sm hover:shadow-2xl transition-all duration-300 flex flex-col">
         <div className="relative aspect-square overflow-hidden">
           <Image
-            src={transformCloudinary(product.image || '/placeholder.svg', 800)}
+            src={transformCloudinary(product.image || "/placeholder.svg", 800)}
             alt={product.name}
             fill
             loading="lazy"
@@ -29,13 +32,23 @@ export function ProductCard({ product, index }) {
           />
           {/* Veg/Non-Veg Sign */}
           <div className="absolute bottom-3 right-3 z-10">
-            <Image
-              src="/vegetarian.png"
-              alt="Vegetarian"
-              width={24}
-              height={24}
-              className="object-contain"
-            />
+            {product.foodtype === "non-veg" ? (
+              <Image
+                src="/non-vegetarian.png"
+                alt="Vegetarian"
+                width={24}
+                height={24}
+                className="object-contain"
+              />
+            ) : (
+              <Image
+                src="/vegetarian.png"
+                alt="Vegetarian"
+                width={24}
+                height={24}
+                className="object-contain"
+              />
+            )}
           </div>
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
         </div>
@@ -67,5 +80,5 @@ export function ProductCard({ product, index }) {
         </div>
       </div>
     </div>
-  )
+  );
 }
