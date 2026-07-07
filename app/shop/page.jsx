@@ -1,103 +1,133 @@
-'use client'
+"use client";
 
-import { useState, useMemo, useEffect, useRef } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { motion } from 'framer-motion'
-import { SlidersHorizontal, MapPin, Globe, RefreshCcw } from 'lucide-react'
-import { ShopFilters } from '@/components/shop-filters'
-import { ProductCard } from '@/components/product-card'
-import { PageHero } from '@/components/page-hero'
-import { orderedProducts } from '@/lib/products'
+import { useState, useMemo, useEffect, useRef } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { motion } from "framer-motion";
+import { SlidersHorizontal, MapPin, Globe, RefreshCcw } from "lucide-react";
+import { ShopFilters } from "@/components/shop-filters";
+import { ProductCard } from "@/components/product-card";
+import { PageHero } from "@/components/page-hero";
+import { orderedProducts } from "@/lib/products";
 
 export default function ShopPage() {
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const showDelivery = searchParams.get('showDelivery') === 'true'
-  const categoryFromUrl = searchParams.get('category') || 'all'
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const showDelivery = searchParams.get("showDelivery") === "true";
+  const categoryFromUrl = searchParams.get("category") || "all";
 
-  const [selectedCategory, setSelectedCategory] = useState(categoryFromUrl)
-  const [deliveryScope, setDeliveryScope] = useState(showDelivery ? 'unset' : 'city') // Show delivery mode only if showDelivery is true
-  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
-  const [page, setPage] = useState(1)
-  const pageSize = 12
+  const [selectedCategory, setSelectedCategory] = useState(categoryFromUrl);
+  const [deliveryScope, setDeliveryScope] = useState(
+    showDelivery ? "unset" : "city",
+  ); // Show delivery mode only if showDelivery is true
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [page, setPage] = useState(1);
+  const pageSize = 12;
 
-  const productsSectionRef = useRef(null)
+  const productsSectionRef = useRef(null);
 
   useEffect(() => {
     // Check if showDelivery is true and set deliveryScope accordingly
     if (showDelivery) {
-      setDeliveryScope('unset')
+      setDeliveryScope("unset");
     }
-  }, [showDelivery])
+  }, [showDelivery]);
 
   useEffect(() => {
     // Update selectedCategory when URL category changes
     if (categoryFromUrl !== selectedCategory) {
-      setSelectedCategory(categoryFromUrl)
-      setPage(1)
+      setSelectedCategory(categoryFromUrl);
+      setPage(1);
     }
-  }, [categoryFromUrl])
+  }, [categoryFromUrl]);
 
   useEffect(() => {
     // Scroll to products section when category changes
-    if (productsSectionRef.current && deliveryScope !== 'unset') {
-      productsSectionRef.current.scrollIntoView({ behavior: 'smooth' })
+    if (productsSectionRef.current && deliveryScope !== "unset") {
+      productsSectionRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [selectedCategory, deliveryScope])
+  }, [selectedCategory, deliveryScope]);
 
   // Function to update URL when category changes
   const handleCategoryChange = (newCategory) => {
-    setSelectedCategory(newCategory)
-    setPage(1)
+    setSelectedCategory(newCategory);
+    setPage(1);
     // Update URL
-    const params = new URLSearchParams(searchParams.toString())
-    if (newCategory === 'all') {
-      params.delete('category')
+    const params = new URLSearchParams(searchParams.toString());
+    if (newCategory === "all") {
+      params.delete("category");
     } else {
-      params.set('category', newCategory)
+      params.set("category", newCategory);
     }
-    router.replace(`/shop?${params.toString()}`)
-  }
+    router.replace(`/shop?${params.toString()}`, {
+      scroll: false,
+    });
+  };
 
   const filteredProducts = useMemo(() => {
-    let filtered = [...orderedProducts]
+    let filtered = [...orderedProducts];
 
-    if (deliveryScope === 'panIndia') {
-      const allowed = new Set(['biscuit-and-confections', 'rusk'])
-      filtered = filtered.filter((p) => allowed.has(p.category))
+    if (deliveryScope === "panIndia") {
+      const allowed = new Set(["biscuit-and-confections", "rusk"]);
+      filtered = filtered.filter((p) => allowed.has(p.category));
     }
 
     // Category filter
-    if (selectedCategory && selectedCategory !== 'all') {
-      filtered = filtered.filter((p) => p.category === selectedCategory)
+    if (selectedCategory && selectedCategory !== "all") {
+      filtered = filtered.filter((p) => p.category === selectedCategory);
     }
 
-    return filtered
-  }, [selectedCategory, deliveryScope])
+    return filtered;
+  }, [selectedCategory, deliveryScope]);
 
-  const totalPages = Math.ceil(filteredProducts.length / pageSize) || 1
-  const paginated = filteredProducts.slice((page - 1) * pageSize, page * pageSize)
-  const goTo = (p) => setPage(Math.min(Math.max(p, 1), totalPages))
+  const totalPages = Math.ceil(filteredProducts.length / pageSize) || 1;
+  const paginated = filteredProducts.slice(
+    (page - 1) * pageSize,
+    page * pageSize,
+  );
+
+  // old code
+  // const goTo = (p) => setPage(Math.min(Math.max(p, 1), totalPages));
+
+  // new code
+  const goTo = (p) => {
+    const nextPage = Math.min(Math.max(p, 1), totalPages);
+
+    setPage(nextPage);
+
+    requestAnimationFrame(() => {
+      productsSectionRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    });
+  };
+
+  // end
 
   return (
     <div className="min-h-screen bg-cream">
       {/* Hero Section with Background Image */}
       <PageHero
-        title={deliveryScope === 'unset' ? null : "Our Shop"}
-        subtitle={deliveryScope === 'unset' ? null : "Browse Our Collection"}
-        description={deliveryScope === 'unset' ? null : "Discover our handcrafted selection of premium baked goods, made fresh daily with the finest ingredients."}
+        title={deliveryScope === "unset" ? null : "Our Shop"}
+        subtitle={deliveryScope === "unset" ? null : "Browse Our Collection"}
+        description={
+          deliveryScope === "unset"
+            ? null
+            : "Discover our handcrafted selection of premium baked goods, made fresh daily with the finest ingredients."
+        }
         backgroundImage="https://res.cloudinary.com/drx8l7t5c/image/upload/v1771908535/_STU0310_ljsglm.webp"
       >
-        {deliveryScope === 'unset' && (
+        {deliveryScope === "unset" && (
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mt-12">
             <motion.button
               whileHover={{ y: -5 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => {
-                setDeliveryScope('city')
-                if (typeof window !== 'undefined') localStorage.setItem('deliveryScope', 'city')
+                setDeliveryScope("city");
+                if (typeof window !== "undefined")
+                  localStorage.setItem("deliveryScope", "city");
                 // Remove showDelivery from URL
-                router.replace('/shop')
+                router.replace("/shop");
               }}
               className="group flex items-center gap-4 bg-white border border-gold/30 hover:border-gold px-8 py-5 rounded-xl shadow-lg transition-all duration-300 min-w-[280px]"
             >
@@ -108,7 +138,9 @@ export default function ShopPage() {
                 <span className="block text-primary text-lg font-semibold tracking-wide">
                   Delivery in Dehradun
                 </span>
-                <span className="text-primary/50 text-sm">Fresh local delivery</span>
+                <span className="text-primary/50 text-sm">
+                  Fresh local delivery
+                </span>
               </div>
             </motion.button>
 
@@ -116,10 +148,11 @@ export default function ShopPage() {
               whileHover={{ y: -5 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => {
-                setDeliveryScope('panIndia')
-                if (typeof window !== 'undefined') localStorage.setItem('deliveryScope', 'panIndia')
+                setDeliveryScope("panIndia");
+                if (typeof window !== "undefined")
+                  localStorage.setItem("deliveryScope", "panIndia");
                 // Remove showDelivery from URL
-                router.replace('/shop')
+                router.replace("/shop");
               }}
               className="group flex items-center gap-4 bg-white border border-gold/30 hover:border-gold px-8 py-5 rounded-xl shadow-lg transition-all duration-300 min-w-[280px]"
             >
@@ -130,7 +163,9 @@ export default function ShopPage() {
                 <span className="block text-primary text-lg font-semibold tracking-wide">
                   Pan-India Delivery
                 </span>
-                <span className="text-primary/50 text-sm">Shipping across India</span>
+                <span className="text-primary/50 text-sm">
+                  Shipping across India
+                </span>
               </div>
             </motion.button>
           </div>
@@ -138,58 +173,75 @@ export default function ShopPage() {
       </PageHero>
 
       {/* Main Content */}
-      <div ref={productsSectionRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {deliveryScope === 'unset' ? (
+      <div
+        ref={productsSectionRef}
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12"
+      >
+        {deliveryScope === "unset" ? (
           <div className="min-h-[20vh] flex flex-col items-center justify-center py-10">
-            <p className="text-primary/60 italic">Please select your delivery method to browse our shop</p>
+            <p className="text-primary/60 italic">
+              Please select your delivery method to browse our shop
+            </p>
           </div>
         ) : (
           <>
             <div className="flex flex-col md:flex-row items-center justify-between mb-10 gap-4">
               <div className="flex flex-col gap-1">
                 <h2 className="font-serif text-2xl text-primary flex items-center gap-2">
-                  {deliveryScope === 'panIndia' ? (
-                    <><Globe className="w-6 h-6 text-gold" /> Pan India Selection</>
+                  {deliveryScope === "panIndia" ? (
+                    <>
+                      <Globe className="w-6 h-6 text-gold" /> Pan India
+                      Selection
+                    </>
                   ) : (
-                    <><MapPin className="w-6 h-6 text-primary" /> {showDelivery ? 'Dehradun Menu' : 'Our Bakery Menu'}</>
+                    <>
+                      <MapPin className="w-6 h-6 text-primary" />{" "}
+                      {showDelivery ? "Dehradun Menu" : "Our Bakery Menu"}
+                    </>
                   )}
                 </h2>
                 <p className="text-muted-foreground text-sm">
-                  {deliveryScope === 'panIndia' 
-                    ? 'Showing shelf-stable treats available for nationwide shipping.' 
-                    : showDelivery 
-                      ? 'Showing our full range of fresh bakery items for local delivery.' 
-                      : 'Showing our full range of fresh bakery items.'}
+                  {deliveryScope === "panIndia"
+                    ? "Showing shelf-stable treats available for nationwide shipping."
+                    : showDelivery
+                      ? "Showing our full range of fresh bakery items for local delivery."
+                      : "Showing our full range of fresh bakery items."}
                 </p>
               </div>
-              
+
               {showDelivery && (
                 <button
-                  onClick={() => setDeliveryScope('unset')}
+                  onClick={() => setDeliveryScope("unset")}
                   className="flex items-center gap-2 px-5 py-2.5 bg-white border border-border rounded-2xl text-primary hover:bg-beige transition-all shadow-sm hover:shadow-md group"
                 >
                   <RefreshCcw className="w-4 h-4 group-hover:rotate-180 transition-transform duration-500" />
-                  <span className="text-sm font-medium">Change Delivery Mode</span>
+                  <span className="text-sm font-medium">
+                    Change Delivery Mode
+                  </span>
                 </button>
               )}
             </div>
 
             <div className="flex flex-col lg:flex-row gap-8">
               {/* Filters Sidebar */}
-            <ShopFilters
-              selectedCategory={selectedCategory}
-              onCategoryChange={handleCategoryChange}
-              isMobileOpen={mobileFiltersOpen}
-              onMobileClose={() => setMobileFiltersOpen(false)}
-              deliveryScope={deliveryScope}
-            />
+              <ShopFilters
+                selectedCategory={selectedCategory}
+                onCategoryChange={handleCategoryChange}
+                isMobileOpen={mobileFiltersOpen}
+                onMobileClose={() => setMobileFiltersOpen(false)}
+                deliveryScope={deliveryScope}
+              />
 
               {/* Products Grid */}
               <div className="flex-1">
                 {/* Mobile Filter Button & Results Count */}
                 <div className="flex items-center justify-between mb-6">
                   <p className="text-muted-foreground">
-                    Showing <span className="text-primary font-medium">{paginated.length}</span> of {filteredProducts.length} products
+                    Showing{" "}
+                    <span className="text-primary font-medium">
+                      {paginated.length}
+                    </span>{" "}
+                    of {filteredProducts.length} products
                   </p>
                   <button
                     type="button"
@@ -209,8 +261,8 @@ export default function ShopPage() {
                     <button
                       type="button"
                       onClick={() => {
-                        setSelectedCategory('all')
-                        setPage(1)
+                        setSelectedCategory("all");
+                        setPage(1);
                       }}
                       className="mt-4 text-gold hover:text-primary transition-colors underline underline-offset-4"
                     >
@@ -220,7 +272,11 @@ export default function ShopPage() {
                 ) : (
                   <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
                     {paginated.map((product, index) => (
-                      <ProductCard key={product.id} product={product} index={index} />
+                      <ProductCard
+                        key={product.id}
+                        product={product}
+                        index={index}
+                      />
                     ))}
                   </div>
                 )}
@@ -230,7 +286,7 @@ export default function ShopPage() {
                       type="button"
                       onClick={() => goTo(page - 1)}
                       disabled={page === 1}
-                      className="px-3 py-1.5 rounded-lg border border-border bg-cream text-primary disabled:opacity-50"
+                      className="px-3 py-1.5 rounded-lg border border-border bg-cream text-primary disabled:opacity-50 cursor-pointer"
                     >
                       Prev
                     </button>
@@ -241,8 +297,8 @@ export default function ShopPage() {
                         onClick={() => goTo(i + 1)}
                         className={`px-3 py-1.5 rounded-lg border ${
                           page === i + 1
-                            ? 'bg-gold border-gold text-white'
-                            : 'bg-cream border-border text-primary'
+                            ? "bg-gold border-gold text-white cursor-pointer"
+                            : "bg-cream border-border text-primary cursor-pointer"
                         }`}
                       >
                         {i + 1}
@@ -252,7 +308,7 @@ export default function ShopPage() {
                       type="button"
                       onClick={() => goTo(page + 1)}
                       disabled={page === totalPages}
-                      className="px-3 py-1.5 rounded-lg border border-border bg-cream text-primary disabled:opacity-50"
+                      className="px-3 py-1.5 rounded-lg border border-border bg-cream text-primary disabled:opacity-50 cursor-pointer"
                     >
                       Next
                     </button>
@@ -264,5 +320,5 @@ export default function ShopPage() {
         )}
       </div>
     </div>
-  )
+  );
 }
