@@ -18,6 +18,7 @@ export default function GiftingHampersPage() {
         description="Premium curated boxes for your loved ones, hand-packed with our finest selection of artisanal treats."
         backgroundImage="https://res.cloudinary.com/drx8l7t5c/image/upload/v1771908535/_STU0310_ljsglm.webp"
       />
+      
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="mb-12 p-8 rounded-[2.5rem] bg-white/30 backdrop-blur-lg border border-white/60 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl shadow-primary/5">
