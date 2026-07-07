@@ -68,6 +68,7 @@ export default function ProductDetailPage({ params }) {
     carouselApiRef.current?.scrollTo(index);
   };
 
+  const [selectedQty, setSelectedQty] = useState(product.quantity?.[0] || null);
   return (
     <div className="min-h-screen bg-cream">
       <div className="max-w-7xl mx-auto px-4 py-10">
@@ -183,28 +184,27 @@ export default function ProductDetailPage({ params }) {
             <h1 className="font-serif text-4xl lg:text-5xl text-primary mt-0 leading-tight flex items-center gap-3">
               <div className="absolute bottom-[65px] left-[680px] z-10">
                 {product.foodtype === "non-veg" ? (
-                <Image
-                  src="/non-vegetarian.png"
-                  alt="Vegetarian"
-                  width={40}
-                  height={40}
-                  className="object-contain"
-                />
-              ) : (
-                <Image
-                  src="/vegetarian.png"
-                  alt="Vegetarian"
-                  width={40}
-                  height={40}
-                  className="object-contain"
-                />
-              )}
+                  <Image
+                    src="/non-vegetarian.png"
+                    alt="Vegetarian"
+                    width={40}
+                    height={40}
+                    className="object-contain"
+                  />
+                ) : (
+                  <Image
+                    src="/vegetarian.png"
+                    alt="Vegetarian"
+                    width={40}
+                    height={40}
+                    className="object-contain"
+                  />
+                )}
               </div>
               {product.name}
             </h1>
-
             <p className="text-gold text-3xl font-semibold mt-4">
-              ₹{product.price.toFixed(2)}
+              ₹ {(selectedQty?.price ?? product.price).toFixed(2)}
             </p>
 
             <p className="text-muted-foreground mt-6 max-w-md leading-relaxed">
@@ -222,6 +222,29 @@ export default function ProductDetailPage({ params }) {
                 </li>
               ))}
             </ul>
+
+            {/* quantity section */}
+            {product.quantity && product.quantity.length > 0 && (
+              <div className="flex items-center space-x-2 pt-5">
+                <span className="text-sm font-medium text-gray-500">Qty:</span>
+
+                <div className="flex gap-2">
+                  {product.quantity.map((item, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setSelectedQty(item)}
+                      className={`px-3 py-1 rounded-sm text-sm ${
+                        selectedQty?.size === item.size
+                          ? "bg-primary text-white"
+                          : "bg-gray-200 text-black cursor-pointer"
+                      }`}
+                    >
+                      {item.size}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* QUANTITY + ADD TO CART INLINE */}
             <div className="flex items-center gap-4 mt-8">
