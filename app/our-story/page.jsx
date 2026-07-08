@@ -43,7 +43,7 @@ export default function AboutPage() {
       <PageHero
         title="Our Story"
         subtitle="About Us"
-        description="A family tradition of baking excellence, crafting moments of joy one loaf at a time since 1998."
+        description="A family baking legacy spanning three generations, from Sunrise Bakers to BakeMasters."
         backgroundImage={transformCloudinary('https://res.cloudinary.com/drx8l7t5c/image/upload/v1771908534/_STU0309_ogdku5.webp', 1600)}
       />
 
@@ -56,24 +56,20 @@ export default function AboutPage() {
                 Our Heritage
               </span>
               <h2 className="font-serif text-3xl md:text-4xl text-primary mt-3 mb-6">
-                Baking with Passion Since 1998
+                Three Generations. One Passion.
               </h2>
               <div className="space-y-4 text-muted-foreground leading-relaxed">
                 <p>
-                  What began as a small family bakery in the heart of Dehradun has blossomed 
-                  into a beloved destination for artisan breads and pastries. Our founder, 
-                  Vikram Sharma, brought his family&apos;s secret recipes, 
-                  infusing each creation with generations of baking wisdom.
+                  Since 1956, our family has been dedicated to the art of baking. What began with Sunrise Bakers in Dehradun grew into a three-generation legacy shaped by quality, craftsmanship, and trust.
                 </p>
                 <p>
-                  Today, we continue that legacy, rising before dawn to prepare fresh breads, 
-                  pastries, and cakes using time-honored techniques and the finest ingredients. 
-                  Every item that leaves our kitchen carries the warmth of our family tradition.
+                  In 2015, we launched BakeMasters as the next chapter of this journey, blending time-honoured baking traditions with modern innovation. Today, every loaf, biscuit, cake, and baked treat we create reflects over 60 years of experience, carefully selected ingredients, and an unwavering commitment to excellence.
                 </p>
                 <p>
-                  We believe that great baking is an art form that brings people together. 
-                  Whether it&apos;s a simple morning croissant or an elaborate wedding cake, 
-                  we pour our hearts into every creation.
+                  More than just a bakery, BakeMasters is a celebration of family, heritage, and the joy that great food brings to people. From our family to yours, we continue to bake with the same passion that started it all.
+                </p>
+                <p className="font-semibold text-primary">
+                  Baking Happiness Since 1956.
                 </p>
               </div>
               <Button asChild className="mt-8 bg-gold hover:black text-white">
