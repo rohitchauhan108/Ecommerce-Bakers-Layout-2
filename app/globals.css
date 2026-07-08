@@ -143,6 +143,9 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    scroll-behavior: smooth;
+  }
   body {
     @apply bg-cream text-foreground; /* preserved from existing to keep custom background */
   }

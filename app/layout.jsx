@@ -32,13 +32,29 @@ export const metadata = {
   title: 'BakeMasters | Dehradun | Premium Baked Goods in Dehradun',
   description:
     'Discover our collection of freshly baked artisan cakes, biscuits, rusks, and premium bakery items made with the finest ingredients.',
-      icons: {
+  keywords: ['BakeMasters', 'Dehradun bakery', 'premium cakes', 'biscuits', 'rusks', 'bakery items Dehradun'],
+  authors: [{ name: 'BakeMasters' }],
+  creator: 'BakeMasters',
+  publisher: 'BakeMasters',
+  icons: {
     icon: [
-      { url: '/favicon.png', type: 'image/png' },
+      { url: '/favicon.jpg', type: 'image/jpeg' },
     ],
-    apple: '/apple-touch-icon.png',
+    apple: '/favicon.jpg',
   },
-    
+  openGraph: {
+    title: 'BakeMasters | Dehradun | Premium Baked Goods',
+    description: 'Discover our collection of freshly baked artisan cakes, biscuits, rusks, and premium bakery items.',
+    url: 'https://bakemasters.in',
+    siteName: 'BakeMasters',
+    locale: 'en_IN',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'BakeMasters | Dehradun | Premium Baked Goods',
+    description: 'Discover our collection of freshly baked artisan cakes, biscuits, rusks, and premium bakery items.',
+  },
 }
 
 export default function RootLayout({ children }) {

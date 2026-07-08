@@ -5,8 +5,14 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 const slides = [
-  { id: 1, imageDesktop: '/hero-1.jpeg', imageMobile: '/mob-1.jpeg', label: 'THE ART OF BAKING' },
-  { id: 2, imageDesktop: '/hero-2.jpeg', imageMobile: '/mob-2.jpeg', label: 'HANDCRAFTED DAILY' },
+  { id: 1, imageDesktop: '/hero-banner/1.webp', imageMobile: '/hero-banner/1.webp', label: 'THE ART OF BAKING' },
+  { id: 2, imageDesktop: '/hero-banner/2.webp', imageMobile: '/hero-banner/2.webp', label: 'HANDCRAFTED DAILY' },
+  { id: 3, imageDesktop: '/hero-banner/3.webp', imageMobile: '/hero-banner/3.webp', label: 'DELIVERED TO YOUR DOOR' },
+  { id: 4, imageDesktop: '/hero-banner/4.webp', imageMobile: '/hero-banner/4.webp', label: 'DELIVERED TO YOUR DOOR' },
+  { id: 5, imageDesktop: '/hero-banner/5.webp', imageMobile: '/hero-banner/5.webp', label: 'DELIVERED TO YOUR DOOR' },
+
+
+
 ]
 
 function HeroSection() {
