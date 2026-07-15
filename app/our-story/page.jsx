@@ -63,7 +63,7 @@ export default function AboutPage() {
                   Since 1956, our family has been dedicated to the art of baking. What began with Sunrise Bakers in Dehradun grew into a three-generation legacy shaped by quality, craftsmanship, and trust.
                 </p>
                 <p>
-                  In 2015, we launched BakeMasters as the next chapter of this journey, blending time-honoured baking traditions with modern innovation. Today, every loaf, biscuit, cake, and baked treat we create reflects over 60 years of experience, carefully selected ingredients, and an unwavering commitment to excellence.
+                  In 2014, we launched BakeMasters as the next chapter of this journey, blending time-honoured baking traditions with modern innovation. Today, every loaf, biscuit, cake, and baked treat we create reflects over 60 years of experience, carefully selected ingredients, and an unwavering commitment to excellence.
                 </p>
                 <p>
                   More than just a bakery, BakeMasters is a celebration of family, heritage, and the joy that great food brings to people. From our family to yours, we continue to bake with the same passion that started it all.
