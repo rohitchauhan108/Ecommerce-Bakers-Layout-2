@@ -66,11 +66,64 @@ export default function AdminDashboardPage() {
 
   // Modal State
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [orders, setOrders] = useState(ordersData);
-  const [customers, setCustomers] = useState(customerdata);
   const totalCategories = new Set(
   products.map((item) => item.category)
 ).size;
+  // Dummy Customer Data
+  const customerdata = [
+    {
+      name: "Anuj Kaundal",
+      email: "anujkaundal@gmail.com",
+      phone: "123456789",
+      joined: "Oct 12, 2025",
+    },
+    {
+      name: "Priya Sharma",
+      email: "priya.sharma@gmail.com",
+      phone: "987654321",
+      joined: "Nov 04, 2025",
+    },
+    {
+      name: "Rahul Verma",
+      email: "rahul.verma@gmail.com",
+      phone: "12384599",
+      joined: "Dec 19, 2025",
+    },
+    {
+      name: "Sneha Kapoor",
+      email: "sneha.kapoor@gmail.com",
+      phone: "654789321",
+      joined: "Jan 02, 2026",
+    },
+    {
+      name: "Amit Singh",
+      email: "amit.singh@gmail.com",
+      phone: "375951456",
+      joined: "Feb 15, 2026",
+    },
+  ];
+
+  // Dummy Orders Data
+  const [ordersData, setOrdersData] = useState([
+    {
+      id: "ORD-101",
+      customerName: "Anuj Kaundal",
+      phone: "123456789",
+      productName: "Wireless Headphones",
+      amount: "$120.00",
+      status: "Processing",
+    },
+    {
+      id: "ORD-102",
+      customerName: "Priya Sharma",
+      phone: "987654321",
+      productName: "Mechanical Keyboard",
+      amount: "$85.00",
+      status: "Completed",
+    },
+  ]);
+
+
   const [newProduct, setNewProduct] = useState({
     title: "",
     category: "",
@@ -205,60 +258,6 @@ export default function AdminDashboardPage() {
       ),
     },
   ];
-
-  // Dummy Customer Data
-  const customerdata = [
-    {
-      name: "Anuj Kaundal",
-      email: "anujkaundal@gmail.com",
-      phone: "123456789",
-      joined: "Oct 12, 2025",
-    },
-    {
-      name: "Priya Sharma",
-      email: "priya.sharma@gmail.com",
-      phone: "987654321",
-      joined: "Nov 04, 2025",
-    },
-    {
-      name: "Rahul Verma",
-      email: "rahul.verma@gmail.com",
-      phone: "12384599",
-      joined: "Dec 19, 2025",
-    },
-    {
-      name: "Sneha Kapoor",
-      email: "sneha.kapoor@gmail.com",
-      phone: "654789321",
-      joined: "Jan 02, 2026",
-    },
-    {
-      name: "Amit Singh",
-      email: "amit.singh@gmail.com",
-      phone: "375951456",
-      joined: "Feb 15, 2026",
-    },
-  ];
-
-  // Dummy Orders Data
-  const [ordersData, setOrdersData] = useState([
-    {
-      id: "ORD-101",
-      customerName: "Anuj Kaundal",
-      phone: "123456789",
-      productName: "Wireless Headphones",
-      amount: "$120.00",
-      status: "Processing",
-    },
-    {
-      id: "ORD-102",
-      customerName: "Priya Sharma",
-      phone: "987654321",
-      productName: "Mechanical Keyboard",
-      amount: "$85.00",
-      status: "Completed",
-    },
-  ]);
 
   // Handler to update status dynamically
   const handleStatusChange = (id, newStatus) => {
